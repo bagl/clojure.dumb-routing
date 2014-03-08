@@ -6,31 +6,36 @@ A Clojure library for routing Ring requests
 
 ```clojure
 (ns my.awesome.web.app
-  (:require [org.httpkit.server :refer [run-server]] ; uses [http-kit "2.1.16"]
-            [dumb-routing.core :refer [basic-handler]]))
+  (:require [dumb-routing.core :refer [basic-handler]]
+            [org.httpkit.server :refer [run-server]]))
+
+(defn response [body]
+  {:status 200 :headers {} :body body})
 
 (def routes
   [[#"/no-params"
-    (fn [_] "no params")]
+    (fn [_] (response "no params"))]
 
    [#"/one-param/(.+)"
     (fn [par]
-      (fn [_] (str "param " par)))]
+      (fn [_] (response (str "param = " par))))]
 
    [#"/two-params/([^/]+)/(.+)"
     (fn [par1 par2]
-      (fn [_] (str "param 1 = " par1 " and param 2 = " par2)))]
+      (fn [_] (response (str "param 1 = " par1 " and param 2 = " par2))))]
 
    [#"/only-numerics/(\d+)"
     (fn [number-like-par]
-      (fn [_] (str "numeric param" number-like-par)))]])
+      (fn [_] (response (str "numeric param = " number-like-par))))]])
 
-(defn not-found [_]
-  "nothing here"))
+(def not-found
+  (fn [_] {:status 404 :headers {} :body "nothing here"}))
 
-(def app (basic-handler routes not found))
+(def app
+  (basic-handler routes not-found))
 
-(run-server app {:port 8000})
+(def server
+  (run-server #'app {:port 8080}))
 ```
 
 `basic-handler` takes a vector of routes and optionally a default handler that
