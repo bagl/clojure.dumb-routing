@@ -13,6 +13,3 @@
     (if matched-uri-parts
       (apply handler matched-uri-parts)
       handler)))
-
-(def not-found-handler
-  (fn [_] {:status 404 :headers {} :body "not found"}))
