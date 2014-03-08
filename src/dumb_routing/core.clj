@@ -1,7 +1,7 @@
 (ns dumb-routing.core
   (:require [dumb-routing.util :as util]))
 
-(defn basic-handler [routes & [custom-not-found]]
+(defn dumb-handler [routes & [custom-not-found]]
   (fn [request]
     (let [uri (:uri request)
           not-found (or custom-not-found

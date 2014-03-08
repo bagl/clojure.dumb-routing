@@ -7,14 +7,14 @@ A Clojure library for routing Ring requests
 Add the following dependency to `project.clj`:
 
 ```clojure
-[dumb-routing "0.0.1"]
+[dumb-routing "0.0.2"]
 ```
 
 ## Usage
 
 ```clojure
 (ns my.awesome.web.app
-  (:require [dumb-routing.core :refer [basic-handler]]
+  (:require [dumb-routing.core :refer [dumb-handler]]
             [org.httpkit.server :refer [run-server]]))
 
 (defn response [body]
@@ -40,13 +40,13 @@ Add the following dependency to `project.clj`:
   (fn [_] {:status 404 :headers {} :body "nothing here"}))
 
 (def app
-  (basic-handler routes not-found))
+  (dumb-handler routes not-found))
 
 (def server
   (run-server #'app {:port 8080}))
 ```
 
-`basic-handler` takes a vector of routes and optionally a default handler that
+`dumb-handler` takes a vector of routes and optionally a default handler that
 will be called when no route matches.
 
 Route is a vector of `[uri-regexp to-be-handler]`. When uri-regexp matches any

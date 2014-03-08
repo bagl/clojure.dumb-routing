@@ -1,6 +1,6 @@
 (ns dumb-routing.core-test
   (:require [clojure.test :refer :all]
-            [dumb-routing.core :refer [basic-handler]]))
+            [dumb-routing.core :refer [dumb-handler]]))
 
 (defn request [method uri]
   {:server-port 80
@@ -25,24 +25,24 @@
    [#"/api/(.+)"
     #(fn [_] (str "api - " %))]])
 
-(deftest test-basic-handler
+(deftest test-dumb-handler
 
   (is (= {:status 404 :headers {} :body "not found"}
-         ((basic-handler routes)
+         ((dumb-handler routes)
           (request :get "/nonexistent"))))
   
   (is (= "nothing here"
-         ((basic-handler routes (fn [_] "nothing here"))
+         ((dumb-handler routes (fn [_] "nothing here"))
           (request :get "/nonexistent"))))
 
   (is (= "api"
-         ((basic-handler routes)
+         ((dumb-handler routes)
           (request :get "/api"))))
 
   (is (= "api"
-         ((basic-handler routes)
+         ((dumb-handler routes)
           (request :post "/api"))))
   
   (is (= "first = v1 --- second = v2"
-         ((basic-handler routes)
+         ((dumb-handler routes)
           (request :get "/api/first/v1/second/v2")))))
