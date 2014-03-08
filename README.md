@@ -2,6 +2,14 @@
 
 A Clojure library for routing Ring requests
 
+## Installation
+
+Add the following dependency to `project.clj`:
+
+```clojure
+[dumb-routing "0.0.1"]
+```
+
 ## Usage
 
 ```clojure
