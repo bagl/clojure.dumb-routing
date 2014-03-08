@@ -7,7 +7,7 @@ A Clojure library for routing Ring requests
 ```clojure
 (ns my.awesome.web.app
   (:require [org.httpkit.server :refer [run-server]] ; uses [http-kit "2.1.16"]
-            [clojure.dumb-routing.core :refer [basic-handler]]))
+            [dumb-routing.core :refer [basic-handler]]))
 
 (def routes
   [[#"/no-params"
@@ -38,7 +38,7 @@ will be called when no route matches.
 
 Route is a vector of `[uri-regexp to-be-handler]`. When uri-regexp matches any
 groups, it calls the `to-be-handler` with the matched values and expect
-it to retun the Ring handler itself. If no groups are matched, it returns
+it to return the Ring handler itself. If no groups are matched, it returns
 `to-be-handler`.
 
 Thus, if you need to pass parameters from uri to your handler, `to-be-handler`
